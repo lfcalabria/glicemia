@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.sql
 
 db.sqlite3
 staticfiles/
