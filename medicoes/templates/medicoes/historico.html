@@ -1,0 +1,71 @@
+{% extends "medicoes/base.html" %}
+{% block titulo %}Histórico — Glicemia{% endblock %}
+{% block conteudo %}
+
+<h1>📚 Histórico de medições</h1>
+
+<div class="card">
+    <form method="get" style="display:flex;gap:12px;align-items:end;flex-wrap:wrap;">
+        <div>
+            <label for="id_data_inicio">De</label><br>
+            <input type="date" id="id_data_inicio" name="data_inicio" value="{{ filtros.data_inicio }}">
+        </div>
+        <div>
+            <label for="id_data_fim">Até</label><br>
+            <input type="date" id="id_data_fim" name="data_fim" value="{{ filtros.data_fim }}">
+        </div>
+        <div>
+            <label for="id_contexto">Contexto</label><br>
+            <select id="id_contexto" name="contexto">
+                <option value="">Todos</option>
+                {% for valor, rotulo in contextos %}
+                    <option value="{{ valor }}"{% if filtros.contexto == valor %} selected{% endif %}>{{ rotulo }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit">Filtrar</button>
+        <a href="{% url 'medicoes:historico' %}">Limpar</a>
+    </form>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Contexto</th>
+            <th>Valor (mg/dL)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for med in medicoes %}
+            <tr>
+                <td class="data">{{ med.data|date:"d/m/Y" }}</td>
+                <td>{{ med.data_hora|time:"H:i" }}</td>
+                <td>{{ med.get_contexto_display }}</td>
+                <td>{{ med.valor_mgdl }}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4">Nenhuma medição encontrada com os filtros atuais.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if pagina.paginator.num_pages > 1 %}
+<div style="margin-top:16px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+    {% if pagina.has_previous %}
+        <a href="?{{ querystring }}&pagina=1">« primeira</a>
+        <a href="?{{ querystring }}&pagina={{ pagina.previous_page_number }}">‹ anterior</a>
+    {% endif %}
+
+    <span>Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}
+        ({{ pagina.paginator.count }} marcações)</span>
+
+    {% if pagina.has_next %}
+        <a href="?{{ querystring }}&pagina={{ pagina.next_page_number }}">próxima ›</a>
+        <a href="?{{ querystring }}&pagina={{ pagina.paginator.num_pages }}">última »</a>
+    {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}

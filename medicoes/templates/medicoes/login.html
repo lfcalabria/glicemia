@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Glicemia</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: system-ui, sans-serif; background: #f4f6fb; display: flex;
+               align-items: center; justify-content: center; min-height: 100vh; }
+        .box { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.08);
+               width: 100%; max-width: 360px; }
+        h1 { font-size: 1.3rem; margin-bottom: 1rem; text-align: center; }
+        form label { display: block; font-size: .85rem; font-weight: 600; margin: .8rem 0 .25rem; }
+        form input { width: 100%; padding: .6rem; border: 1px solid #d1d5db; border-radius: 8px; font: inherit; }
+        .btn { margin-top: 1.2rem; width: 100%; background: #2563eb; color: #fff; padding: .7rem;
+               border: 0; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .erro { background: #fee2e2; color: #991b1b; padding: .6rem .8rem; border-radius: 8px;
+                font-size: .85rem; margin-bottom: .5rem; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>🔒 Acesso — Glicemia</h1>
+        {% if form.errors %}
+            <div class="erro">Usuário ou senha inválidos.</div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <label>Usuário</label>
+            <input type="text" name="username" autofocus required>
+            <label>Senha</label>
+            <input type="password" name="password" required>
+            <button type="submit" class="btn">Entrar</button>
+        </form>
+    </div>
+</body>
+</html>

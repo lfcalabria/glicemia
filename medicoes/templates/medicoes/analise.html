@@ -1,0 +1,227 @@
+{% extends "medicoes/base.html" %}
+
+{% block titulo %}Análise — Glicemia{% endblock %}
+
+{% block conteudo %}
+<h1>Análise da curva glicêmica</h1>
+
+<div class="card">
+    <form method="get">
+        <label for="id_modo">Tipo de análise</label><br>
+        <select id="id_modo" name="modo" onchange="this.form.submit()">
+            <option value="resumo"{% if modo == 'resumo' %} selected{% endif %}>Resumo (médias de cada grupo)</option>
+            <option value="grupo"{% if modo == 'grupo' %} selected{% endif %}>Um grupo específico</option>
+            <option value="ultimos"{% if modo == 'ultimos' %} selected{% endif %}>Últimos N grupos (como um só)</option>
+            <option value="completo"{% if modo == 'completo' %} selected{% endif %}>Completo (todos os grupos como um só)</option>
+            <option value="tudo"{% if modo == 'tudo' %} selected{% endif %}>Gera tudo (PDF: resumo + todos os grupos + completo)</option>
+        </select>
+
+        {% if modo == 'grupo' %}
+            <label for="id_grupo">Grupo</label>
+            <select id="id_grupo" name="grupo_id" onchange="this.form.submit()">
+                <option value="">— escolha —</option>
+                {% for item in grupos %}
+                    <option value="{{ item.grupo.pk }}"{% if item.grupo.pk|stringformat:"s" == grupo_id_sel %} selected{% endif %}>
+                        {{ item.rotulo }} ({{ item.grupo.data_inicio }} — {{ item.grupo.quantidade_dias }} dias)
+                    </option>
+                {% endfor %}
+            </select>
+        {% endif %}
+
+        {% if modo == 'ultimos' %}
+            <label for="id_n">N (quantos grupos)</label>
+            <input type="number" id="id_n" name="n" min="1" max="99" value="{{ n_sel }}">
+            <button type="submit">Analisar</button>
+        {% endif %}
+    </form>
+
+    {% if graficos or resumo %}
+        <div class="botoes">
+            <a class="btn-pdf" href="/analise/pdf/?{{ querystring }}">⬇ Gerar PDF desta análise</a>
+        </div>
+    {% endif %}
+</div>
+
+{% if erro %}
+    <div class="card"><p class="erro">{{ erro }}</p></div>
+{% endif %}
+
+{% if modo == 'tudo' and not erro %}
+    <div class="card">
+        <h2 style="font-size:1.1rem;">📦 Relatório completo</h2>
+        <p style="font-size:.9rem;color:#374151;">
+            O PDF incluirá, nesta ordem:
+        </p>
+        <ul style="font-size:.9rem;">
+            <li>Capa com índice e lista de grupos incluídos</li>
+            <li><strong>Resumo</strong> — tabela comparativa + 3 gráficos entre grupos</li>
+            <li><strong>Cada grupo individualmente</strong> — resumo, tabela diária e 4 gráficos</li>
+            <li><strong>Análise completa</strong> — todos os grupos mesclados, com divisórias</li>
+        </ul>
+        <div class="botoes">
+            <a class="btn-pdf" href="/analise/pdf/?{{ querystring }}">⬇ Gerar PDF completo</a>
+        </div>
+    </div>
+{% endif %}
+
+{% if graficos and g %}
+
+    {# ========== 1. TABELA DIÁRIA (antes dos gráficos) ========== #}
+    <h2>{{ g.rotulo }} — Tabela diária</h2>
+    <table class="tabela-dias">
+        <thead>
+            <tr>
+                <th>Data</th>
+                {% if g.grupo is None %}
+                    <th>Grupo</th>
+                {% endif %}
+                {% for c, rotulo in contextos_fixos %}
+                    <th>{{ rotulo }}</th>
+                {% endfor %}
+                <th>Média</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for linha in tabela_dias %}
+                <tr>
+                    <td class="data">{{ linha.data|date:"d/m/Y" }}</td>
+                    {% if g.grupo is None %}
+                        <td>{{ linha.grupo }}</td>
+                    {% endif %}
+                    {% for celula in linha.celulas %}
+                        <td class="{{ celula.classe }}">
+                            {% if celula.valor is not None %}{{ celula.valor }}{% else %}—{% endif %}
+                        </td>
+                    {% endfor %}
+                    <td class="{{ linha.media_classe }}">
+                        {% if linha.media is not None %}{{ linha.media|floatformat:0 }}{% else %}—{% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr style="font-weight:bold;background:#d5e3f0;">
+                <td class="data">Média do período</td>
+                {% if g.grupo is None %}
+                    <td></td>
+                {% endif %}
+                {% for linha in resumo_periodos %}
+                    <td>
+                        {% if linha.media is not None %}{{ linha.media|floatformat:1 }}{% else %}—{% endif %}
+                    </td>
+                {% endfor %}
+                <td>
+                    {% if g.media_geral is not None %}{{ g.media_geral|floatformat:1 }}{% else %}—{% endif %}
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <p class="legenda">
+        <span class="sw sw-alto"></span> acima de 180 mg/dL ·
+        <span class="sw sw-baixo"></span> abaixo de 70 mg/dL ·
+        <span class="sw sw-normal"></span> faixa normal 70–180
+    </p>
+
+    {# ========== 2. GRÁFICOS ========== #}
+    <h2>Gráficos</h2>
+    <h3>Marcações em sequência</h3>
+    <img src="data:image/png;base64,{{ graficos.sequencia }}" style="max-width:100%;">
+    <h3>Todos os períodos</h3>
+    <img src="data:image/png;base64,{{ graficos.periodos }}" style="max-width:100%;">
+    <h3>Médias diárias</h3>
+    <img src="data:image/png;base64,{{ graficos.medias }}" style="max-width:100%;">
+    <h3>Médias por período</h3>
+    <img src="data:image/png;base64,{{ graficos.barras }}" style="max-width:100%;">
+
+    {# ========== 3. RESUMO (por último) ========== #}
+    <h2>Resumo</h2>
+    <div class="card">
+        <strong>Período analisado:</strong> {{ g.rotulo }}
+        ({{ g.linhas.0.data|date:"d/m/Y" }} a
+        {% for l in g.linhas %}{% if forloop.last %}{{ l.data|date:"d/m/Y" }}{% endif %}{% endfor %})
+    </div>
+    <div class="card">
+        <strong>Medicação vinculada</strong>
+        {% if g.medicacao_por_grupo %}
+            {% for bloco in g.medicacao_por_grupo %}
+                <p style="margin:.6rem 0 .2rem;font-weight:600;">{{ bloco.rotulo }}</p>
+                <ul>
+                    <li>Manhã: {{ bloco.medicacao.manha }}</li>
+                    <li>Tarde: {{ bloco.medicacao.tarde }}</li>
+                    <li>Noite: {{ bloco.medicacao.noite }}</li>
+                </ul>
+            {% endfor %}
+        {% else %}
+            <ul>
+                <li>Manhã: {{ g.medicacao.manha }}</li>
+                <li>Tarde: {{ g.medicacao.tarde }}</li>
+                <li>Noite: {{ g.medicacao.noite }}</li>
+            </ul>
+        {% endif %}
+    </div>
+    <div class="card">
+        <strong>Médias por período</strong>
+        <table>
+            <thead>
+                <tr><th>Período</th><th>Média (mg/dL)</th></tr>
+            </thead>
+            <tbody>
+                {% for linha in resumo_periodos %}
+                    <tr>
+                        <td>{{ linha.rotulo }}</td>
+                        <td class="celula {{ linha.classe }}">
+                            {% if linha.media is not None %}{{ linha.media|floatformat:1 }}{% else %}sem dados{% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>
+            {% if g.media_geral %}
+                <strong>Média geral: {{ g.media_geral|floatformat:1 }} mg/dL</strong> ·
+            {% endif %}
+            Total de marcações: {{ g.total_marcacoes }}
+        </p>
+    </div>
+
+{% endif %}
+
+{% if resumo %}
+    <h2>Comparação entre grupos</h2>
+    <h3>Média geral por grupo</h3>
+    <img src="data:image/png;base64,{{ resumo.graficos.medias }}" style="max-width:100%;">
+    <h3>Evolução da média geral</h3>
+    <img src="data:image/png;base64,{{ resumo.graficos.evolucao }}" style="max-width:100%;">
+    <h3>Evolução por contexto</h3>
+    <img src="data:image/png;base64,{{ resumo.graficos.por_contexto }}" style="max-width:100%;">
+
+    <table>
+        <thead>
+            <tr>
+                <th>Grupo</th>
+                <th>Período</th>
+                <th>Marcações</th>
+                <th>Média geral</th>
+                <th>Δ vs anterior</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for linha in resumo.tabela %}
+                <tr>
+                    <td class="data">{{ linha.rotulo }}</td>
+                    <td>{{ linha.periodo }}</td>
+                    <td>{{ linha.total_marcacoes }}</td>
+                    <td><strong>{{ linha.media_geral }}</strong></td>
+                    <td>
+                        {% if linha.variacao is not None %}
+                            {% if linha.variacao <= 0 %}<span style="color:green;">▼</span>{% else %}<span style="color:red;">▲</span>{% endif %}
+                            {{ linha.variacao|floatformat:1 }}
+                        {% else %}—{% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>▼ = média menor que o grupo anterior (melhora) · ▲ = média maior (piora)</p>
+{% endif %}
+{% endblock %}

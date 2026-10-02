@@ -1,0 +1,84 @@
+{% extends "medicoes/base.html" %}
+{% block titulo %}Admin — Marcações{% endblock %}
+{% block conteudo %}
+
+<h1>🛠️ Administração de marcações</h1>
+
+<div class="card">
+    <h2 style="font-size:1.1rem;">1. Escolha o usuário</h2>
+    <form method="get">
+        <select name="usuario"
+                onchange="var g=document.getElementById('id_grupo'); if(g){g.value='';} this.form.submit();"
+                style="width:100%;">
+            <option value="">— Selecione um usuário —</option>
+            {% for u in usuarios %}
+                <option value="{{ u.id }}" {% if u.id|stringformat:"s" == usuario_id %}selected{% endif %}>
+                    {{ u.username }}{% if u.get_full_name %} ({{ u.get_full_name }}){% endif %}
+                </option>
+            {% endfor %}
+        </select>
+
+        {% if grupos %}
+            <h2 style="font-size:1.1rem;margin-top:1.2rem;">2. Escolha o grupo</h2>
+            <select name="grupo" id="id_grupo" onchange="this.form.submit()" style="width:100%;">
+                <option value="">— Selecione um grupo —</option>
+                {% for g in grupos %}
+                    <option value="{{ g.id }}" {% if g.id|stringformat:"s" == grupo_id %}selected{% endif %}>
+                        {{ g.data_inicio|date:"d/m/Y" }} a {{ g.data_fim|date:"d/m/Y" }} ({{ g.quantidade_dias }} dias)
+                    </option>
+                {% endfor %}
+            </select>
+        {% endif %}
+    </form>
+</div>
+
+{% if grupo %}
+<div class="card" style="margin-top:1rem;">
+    <h2 style="font-size:1.1rem;">3. Marcações de {{ grupo.usuario.username }} — {{ grupo.data_inicio|date:"d/m/Y" }} a {{ grupo.data_fim|date:"d/m/Y" }}</h2>
+    <p style="font-size:.85rem;color:#6b7280;">
+        As células já preenchidas mostram as marcações existentes do usuário no período.
+        Altere para corrigir, ou preencha as vazias para incluir. Célula sem valor é ignorada no salvamento.
+    </p>
+    <p style="font-size:.9rem;font-weight:600;color:#2563eb;">
+        🔍 Marcações encontradas no banco para este usuário+grupo: <strong>{{ total_marcacoes }}</strong>
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="usuario" value="{{ usuario_id }}">
+        <input type="hidden" name="grupo" value="{{ grupo_id }}">
+        <div style="overflow-x:auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        {% for rotulo in contextos_fixos %}<th>{{ rotulo }}</th>{% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for linha in tabela %}
+                    <tr>
+                        <td style="white-space:nowrap;font-weight:600;">{{ linha.data|date:"d/m/Y" }}</td>
+                        {% for celula in linha.celulas %}
+                        <td style="vertical-align:top;">
+                            <div style="display:flex;flex-direction:column;gap:.25rem;">
+                                <input type="number" name="{{ celula.valor_field.html_name }}"
+                                       value="{{ celula.valor_atual }}"
+                                       min="10" max="1000" step="1"
+                                       style="width:70px;padding:.3rem;border:1px solid #d1d5db;border-radius:6px;">
+                                <input type="time" name="{{ celula.hora_field.html_name }}"
+                                       value="{{ celula.hora_atual }}"
+                                       style="width:95px;padding:.3rem;border:1px solid #d1d5db;border-radius:6px;">
+                            </div>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <button type="submit" class="btn" style="margin-top:1rem;">💾 Salvar alterações</button>
+    </form>
+</div>
+{% endif %}
+
+{% endblock %}

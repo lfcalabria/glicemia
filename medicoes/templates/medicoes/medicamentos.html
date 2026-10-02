@@ -1,0 +1,56 @@
+{% extends "medicoes/base.html" %}
+{% block titulo %}Medicamentos{% endblock %}
+{% block conteudo %}
+
+<h1>💊 Medicamentos</h1>
+
+<div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">
+        <h2 style="font-size:1.1rem;">Lista de medicamentos</h2>
+        <a class="btn" href="{% url 'medicoes:novo_medicamento' %}">➕ Incluir novo</a>
+    </div>
+
+    <div style="margin-bottom:1rem;">
+        <form method="get" style="display:inline-flex;gap:.5rem;align-items:center;flex-wrap:wrap;">
+            <label for="id_filtro" style="font-weight:600;font-size:.85rem;">Filtro:</label>
+            <select id="id_filtro" name="filtro" onchange="this.form.submit()" style="padding:.4rem;border:1px solid #d1d5db;border-radius:6px;">
+                <option value="todos"{% if filtro == 'todos' %} selected{% endif %}>Todos</option>
+                <option value="ativos"{% if filtro == 'ativos' %} selected{% endif %}>Somente ativos</option>
+                <option value="inativos"{% if filtro == 'inativos' %} selected{% endif %}>Somente inativos</option>
+            </select>
+        </form>
+    </div>
+
+    <table>
+        <thead><tr><th>Nome</th><th>Dosagem</th><th>Período</th><th>Ativo</th><th></th></tr></thead>
+        <tbody>
+        {% for m in medicamentos %}
+            <tr>
+                <td>{{ m.nome }}</td>
+                <td>{{ m.dosagem }}</td>
+                <td>{{ m.get_periodo_display }}</td>
+                <td>
+                    {% if m.ativo %}<span class="badge" style="background:#dcfce7;color:#166534;">Ativo</span>
+                    {% else %}<span class="badge" style="background:#f3f4f6;color:#6b7280;">Inativo</span>{% endif %}
+                </td>
+                <td>
+                    <form method="post" action="{% url 'medicoes:toggle_medicamento' m.pk %}{% if filtro != 'todos' %}?filtro={{ filtro }}{% endif %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn" style="padding:.4rem .8rem;font-size:.8rem;">
+                            {{ m.ativo|yesno:"Inativar,Ativar" }}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="5" style="color:#6b7280;">
+                {% if filtro == 'ativos' %}Nenhum medicamento ativo.
+                {% elif filtro == 'inativos' %}Nenhum medicamento inativo.
+                {% else %}Nenhum medicamento cadastrado.{% endif %}
+            </td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

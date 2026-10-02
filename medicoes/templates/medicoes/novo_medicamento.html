@@ -1,0 +1,14 @@
+{% extends "medicoes/base.html" %}
+{% block titulo %}Novo medicamento{% endblock %}
+{% block conteudo %}
+
+<h1>➕ Incluir medicamento</h1>
+<div class="card" style="max-width:480px;">
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn" style="margin-top:1rem;">Salvar medicamento</button>
+    </form>
+</div>
+
+{% endblock %}

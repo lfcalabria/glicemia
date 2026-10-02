@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="39a5aca2-5385-4945-ae04-50bf9dfc230b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/glicemia.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/glicemia/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/glicemia/asgi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/glicemia/settings.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/glicemia/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/glicemia/wsgi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/analise.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/templates/medicoes/admin_marcacoes.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/templates/medicoes/analise.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/templates/medicoes/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/templates/medicoes/criar_grupo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/templates/medicoes/historico.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/templates/medicoes/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/templates/medicoes/medicamentos.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/templates/medicoes/novo_medicamento.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/templates/medicoes/painel.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicoes/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0000011913115514" />
+      <entry key="S2" value="1.0747878100327755" />
+      <entry key="S5" value="1.6848019844406938" />
+      <entry key="S10" value="2.4331882538691993" />
+      <entry key="S30" value="3.345163165044592" />
+      <entry key="S60" value="3.6524431451176085" />
+      <entry key="M2" value="3.821726059118985" />
+      <entry key="M5" value="4.063129386798348" />
+      <entry key="M10" value="4.716373433523087" />
+      <entry key="M15" value="5.441237849875546" />
+      <entry key="M30" value="8.33381123457622" />
+      <entry key="H1" value="14.526260179578244" />
+      <entry key="H2" value="21.93152077652007" />
+      <entry key="H4" value="27.83277690737881" />
+      <entry key="D1" value="34.44670687740979" />
+      <entry key="W1" value="35.772863105201864" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="1.0079394508101164E-31" />
+      <entry key="MS500" value="1.721071513608954E-6" />
+      <entry key="S2" value="0.10170802667191102" />
+      <entry key="S5" value="0.9202730095588113" />
+      <entry key="S10" value="1.9184234330076182" />
+      <entry key="S30" value="3.1309661827760253" />
+      <entry key="S60" value="3.5388974927364383" />
+      <entry key="M2" value="3.7632420806102447" />
+      <entry key="M5" value="4.039263652551686" />
+      <entry key="M10" value="4.704257736984263" />
+      <entry key="M15" value="5.433046318718006" />
+      <entry key="M30" value="8.329409787989475" />
+      <entry key="H1" value="14.523656122749717" />
+      <entry key="H2" value="21.929957696819695" />
+      <entry key="H4" value="27.831887813001867" />
+      <entry key="D1" value="34.446538220108785" />
+      <entry key="W1" value="35.77283841939373" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="3K4KP7odVSdTUsplUaYspVO2r3E" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/calab/PycharmProjects/glicemia&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\calab\PycharmProjects\glicemia" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\calab\PycharmProjects\glicemia\medicoes" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-PY-261.27258.51" />
+        <option value="bundled-python-sdk-84eaadda3698-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.27258.51" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="39a5aca2-5385-4945-ae04-50bf9dfc230b" name="Changes" comment="" />
+      <created>1790811374207</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1790811374207</updated>
+      <workItem from="1790811375706" duration="177000" />
+      <workItem from="1790811983803" duration="20505000" />
+      <workItem from="1790881953108" duration="15605000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
